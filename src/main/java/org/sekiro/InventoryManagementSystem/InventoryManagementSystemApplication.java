@@ -1,5 +1,6 @@
 package org.sekiro.InventoryManagementSystem;
 
+import org.sekiro.InventoryManagementSystem.entities.Product;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

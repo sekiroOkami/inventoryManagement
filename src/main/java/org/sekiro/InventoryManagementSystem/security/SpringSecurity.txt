@@ -1,0 +1,7 @@
+Spring Security Role:
+ > Spring Security uses UserDetails to:
+    Authenticate users(verify username and password)
+    Authorize users(check roles/ permissions for access control).
+    Manage user sessions(e.g. login state).
+
+SimpleGrantedAuthority is a Spring Security class representing a role or permission.
