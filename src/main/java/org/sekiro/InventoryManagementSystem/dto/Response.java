@@ -26,8 +26,8 @@ public class Response {
     private Long totalElement;
 
     // data output optional
-    private UserDTO userDTO;
-    private List<UserDTO> userDTOS;
+    private UserDTO user;
+    private List<UserDTO> users;
 
     private TransactionDTO transactionDTO;
     private List<TransactionDTO> transactionDTOS;

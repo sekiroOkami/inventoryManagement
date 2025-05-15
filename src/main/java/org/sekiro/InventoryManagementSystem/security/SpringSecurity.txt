@@ -5,3 +5,63 @@ Spring Security Role:
     Manage user sessions(e.g. login state).
 
 SimpleGrantedAuthority is a Spring Security class representing a role or permission.
+
+
+authenticationFilter will intercept the authentication request
+    - grab the username and password
+    - create authenticationObject -> a way to package credentials
+
+authenticationManager(handler a authenticationObject)
+    - 1 .decides what to do with these credentials
+    - delegate 1. to authenticationProvider
+
+authenticationProvider
+    , Someone who is responsible for checking whether the given username and password or whether
+    the given credentials are correct or not using
+        1. UserDetailService: retrieves stored user credentials and roles from a database or another datasource.
+        2. PasswordEncoder: Compare the encoded stored password with the submitted password
+    Validating Credentials:
+        if the credentials match, the authentication provider creates a complete authenticationObject, including
+        details like user roles
+    update security context:
+        the update authenticationObject is sent back to the authenticationManager, which stores it in the security context.
+        This allows the application to determine uesr permissions throughout their session
+
+=================================================================================
+
+Here's a summarized flow of how Spring Security processes a request from start to reaching the application controller:
+
+1.User Sends a Request:
+    The user initiates a request, typically trying to access a secured endpoint.
+
+2.Filter Chain Activation:
+    The request first goes through multiple filters, collectively known as the filter chain.
+    These filters process the request before reaching the controller.
+
+3.Authentication Filter Interception:
+    If Spring Security is configured, one of these filters is the authentication filter.
+    It identifies login attempts and extracts credentials (like username and password).
+
+4.Creation of Authentication Object:
+    The authentication filter creates an authentication object to package credentials.
+
+5.Authentication Manager Delegation:
+    The authentication object is passed to the authentication manager,
+     which decides how authentication should be handled.
+
+6.Authentication Provider Validation:
+    The authentication manager delegates authentication tasks to an authentication provider.
+    This provider verifies credentials using:
+
+        User Details Service (retrieves stored user credentials).
+        Password Encoder (validates password matches).
+
+7.Verification & Role Assignment: If credentials are valid,
+    the authentication provider updates the authentication object with additional information, such as assigned roles.
+
+8.Storing Authentication in Security Context:
+    The authentication object is then stored in the security context, ensuring authenticated details remain available throughout the request lifecycle.
+
+9.Accessing the Controller: After successful authentication,
+    the request proceeds to the application controller, where actual business logic executes.
+
