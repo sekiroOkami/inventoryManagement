@@ -1,13 +1,9 @@
 package org.sekiro.InventoryManagementSystem.controller;
 
-import jakarta.validation.Valid;
-import org.sekiro.InventoryManagementSystem.dto.LoginRequest;
-import org.sekiro.InventoryManagementSystem.dto.RegisterRequest;
 import org.sekiro.InventoryManagementSystem.dto.Response;
 import org.sekiro.InventoryManagementSystem.dto.UserDTO;
 import org.sekiro.InventoryManagementSystem.entities.User;
 import org.sekiro.InventoryManagementSystem.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    private final UserService userService;
 
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -25,21 +24,33 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Response> updateUser(@PathVariable(name = "id") Long id, @RequestBody UserDTO userDTO) {
+    @PostMapping("/update/{id}")
+    public ResponseEntity<Response> updateUser(
+            @PathVariable Long id,
+            @RequestBody UserDTO userDTO
+    ) {
         return ResponseEntity.ok(userService.updateUser(id, userDTO));
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Response> deleteUser(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<Response> deleteUser(
+            @PathVariable Long id
+    ) {
         return ResponseEntity.ok(userService.deleteUser(id));
     }
 
-    @GetMapping("/transactions/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Response> getUserAndTransactions(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getUserTransactions(id));
+    @GetMapping("/transaction/{id}")
+    public ResponseEntity<Response> getTransaction(
+            @PathVariable Long userId
+    ) {
+        return ResponseEntity.ok(userService.deleteUser(userId));
+    }
+
+    @GetMapping("/transaction/{id}")
+    public ResponseEntity<Response> getUserAndTransactions(
+            @PathVariable Long userId
+    ) {
+        return ResponseEntity.ok(userService.getUserTransactions(userId));
     }
 
     @GetMapping("/current")

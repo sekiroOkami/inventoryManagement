@@ -20,7 +20,7 @@ import java.util.function.Function;
 @Slf4j
 public class JwtUtils {
 
-    private static final long EXPIRATION_TIME_IN_MILLISEC = 1000L * 60L * 60L; // 1 hour
+    public static final long EXPIRATION_TIME_IN_MILLISEC = 1000L * 60L * 60L; // 1 hour
 
     // Stores the secret key used to sign and verify JWTs.
     private SecretKey key;
