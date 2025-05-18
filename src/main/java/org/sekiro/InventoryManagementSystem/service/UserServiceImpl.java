@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
         return Response.builder()
                 .status(200)
                 .message("success")
-                .userDTOS(userDTOS)
+                .users(userDTOS)
                 .build();
     }
 
@@ -149,7 +149,7 @@ public class UserServiceImpl implements UserService {
         return Response.builder()
                 .status(200)
                 .message("success")
-                .userDTO(userDTO)
+                .user(userDTO)
                 .build();
     }
 }
