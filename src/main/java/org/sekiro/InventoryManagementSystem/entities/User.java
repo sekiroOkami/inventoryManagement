@@ -14,7 +14,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString(exclude = "transactions")
+@Getter
+@Setter
+//@ToString(exclude = "transactions")
 @Table(name = "users")
 public class User {
 

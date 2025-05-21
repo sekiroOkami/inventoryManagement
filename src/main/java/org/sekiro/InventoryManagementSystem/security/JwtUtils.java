@@ -31,11 +31,23 @@ public class JwtUtils {
     // Initializes the SecretKey after DI(e.g. secretJwtString)
     @PostConstruct
     private void init() {
+        log.info("Initializing JwtUtils with secretJwtString length: {}",
+                secretJwtString == null ? "null" : secretJwtString.length());
+
         if (secretJwtString == null || secretJwtString.length() < 32) {
+            log.error("JWT secret is null or too short: length={}",
+                    secretJwtString == null ? "null" : secretJwtString.length());
             throw new IllegalStateException("JWT secret must be at least 32 characters long.");
         }
-        byte[] keyByte = secretJwtString.getBytes(StandardCharsets.UTF_8);
-        this.key = Keys.hmacShaKeyFor(keyByte);
+
+        try {
+            byte[] keyByte = secretJwtString.getBytes(StandardCharsets.UTF_8);
+            this.key = Keys.hmacShaKeyFor(keyByte);
+            log.info("JWT key initialized successfully");
+        } catch (Exception e) {
+            log.error("Failed to initialize JWT key", e);
+            throw new IllegalStateException("Failed to initialize JWT key", e);
+        }
     }
 
     // Generates a JWT for a user identified by their email

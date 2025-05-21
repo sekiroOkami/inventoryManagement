@@ -18,17 +18,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class SecurityFilter {
-    private static final Logger logger = LoggerFactory.getLogger(SecurityFilter.class);
+public class SecurityConfig {
 
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     private final AuthFilter authFilter;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDenialHandler accessDenialHandler;
 
-    public SecurityFilter(AuthFilter authFilter, CustomAuthenticationEntryPoint customAuthenticationEntryPoint, CustomAccessDenialHandler accessDenialHandler) {
+    public SecurityConfig(AuthFilter authFilter, CustomAuthenticationEntryPoint customAuthenticationEntryPoint, CustomAccessDenialHandler accessDenialHandler) {
         this.authFilter = authFilter;
         this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
         this.accessDenialHandler = accessDenialHandler;

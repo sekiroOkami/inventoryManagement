@@ -1,5 +1,6 @@
 package org.sekiro.InventoryManagementSystem.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -43,8 +44,6 @@ public class UserServiceImpl implements UserService {
 
     private final JwtUtils jwtUtils;
 
-    private final AuthenticationManager authenticationManager;
-
     public UserServiceImpl(UserRepository userRepository,
                            PasswordEncoder passwordEncoder,
                            ModelMapper modelMapper,
@@ -54,43 +53,42 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
         this.modelMapper = modelMapper;
         this.jwtUtils = jwtUtils;
-        this.authenticationManager = authenticationManager;
     }
 
     @Override
     public Response registerUser(RegisterRequest registerRequest) {
         Objects.requireNonNull(registerRequest, "RegisterRequest cannot be null!");
-        UserRole role = registerRequest.getRole() != null ? registerRequest.getRole() : UserRole.USER;;
-        if (registerRequest.getRole() != null) {
-            role = registerRequest.getRole();
-        }
+        UserRole role = registerRequest.getRole() != null ? registerRequest.getRole() : UserRole.USER;
 
         if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email already exists.");
         }
 
-        User userToSave = User.builder()
-                .name(registerRequest.getName())
-                .email(registerRequest.getEmail())
-                .password(passwordEncoder.encode(registerRequest.getPassword()))
-                .phoneNumber(registerRequest.getPhoneNumber())
-                .role(role)
-                .build();
+        try {
+            User userToSave = User.builder()
+                    .name(registerRequest.getName())
+                    .email(registerRequest.getEmail())
+                    .password(passwordEncoder.encode(registerRequest.getPassword()))
+                    .phoneNumber(registerRequest.getPhoneNumber())
+                    .role(role)
+                    .build();
 
-        userRepository.save(userToSave);
+            User savedUser = userRepository.save(userToSave);
+            log.info("Saved user with ID: {}", savedUser.getId());
 
-        return Response.builder()
-                .status(200)
-                .message("User created successfully.")
-                .build();
+            return Response.builder()
+                    .status(200)
+                    .message("User created successfully.")
+                    .build();
+        } catch (Exception e) {
+            log.error("Error saving user: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to register user", e);
+        }
     }
 
     @Override
     public Response loginUser(LoginRequest loginRequest) {
         try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),loginRequest.getPassword())
-            );
             User user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new NotFoundException("Email not found."));
             String token = jwtUtils.generateToken(user.getEmail());
             return Response.builder()

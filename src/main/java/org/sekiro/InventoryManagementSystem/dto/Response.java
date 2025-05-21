@@ -42,5 +42,4 @@ public class Response {
     private List<ProductDTO> productDTOS;
 
     private final LocalDateTime timestamp = LocalDateTime.now();
-
 }

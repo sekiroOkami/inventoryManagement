@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
+@Setter
 @Table(name = "transactions")
 public class Transaction {
 
@@ -42,16 +44,17 @@ public class Transaction {
     @Size(max = 255, message = "Description cannot exceed 255 characters.")
     private String description;
 
-    @LastModifiedDate
+//    @LastModifiedDate
     private LocalDateTime updatedAt ;
 
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createdAt ;
+//    @CreatedDate
+//    @Column(updatable = false)
+//    private LocalDateTime createdAt ;
+    private final LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User users;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")

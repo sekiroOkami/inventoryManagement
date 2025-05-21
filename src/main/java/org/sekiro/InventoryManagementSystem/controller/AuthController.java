@@ -5,6 +5,7 @@ import org.sekiro.InventoryManagementSystem.dto.LoginRequest;
 import org.sekiro.InventoryManagementSystem.dto.RegisterRequest;
 import org.sekiro.InventoryManagementSystem.dto.Response;
 import org.sekiro.InventoryManagementSystem.service.UserService;
+import org.sekiro.InventoryManagementSystem.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/auth")
+@RequestMapping("/api/auth")
 class AuthController {
 
     @Autowired
