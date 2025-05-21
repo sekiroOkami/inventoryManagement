@@ -19,6 +19,7 @@ public class ModelMapperConfig {
                 // ModelMapper can read and write private fields(via reflection)
                 .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
                 // Defines how ModelMapper matches properties between src and des obj
+                // Matches fields by name and type
                 .setMatchingStrategy(MatchingStrategies.STANDARD);
         return modelMapper;
     }
