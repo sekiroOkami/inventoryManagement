@@ -1,8 +1,8 @@
 package org.sekiro.InventoryManagementSystem.dto;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +17,7 @@ public class SupplierDTO {
 
     private Long id;
 
-    @NotBlank(message = "Name is required.")
+    @NotBlank(message = "Name is required")
     private String name;
 
     private String address;

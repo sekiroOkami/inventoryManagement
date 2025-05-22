@@ -1,9 +1,11 @@
 package org.sekiro.InventoryManagementSystem.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.sekiro.InventoryManagementSystem.enums.UserRole;
 
 import java.time.LocalDateTime;
@@ -14,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString(exclude = "transactions")
 @Table(name = "users")
 public class User {
 
@@ -22,21 +23,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Name is required.")
+    @NotBlank(message = "Name is required")
     private String name;
 
-    @NotBlank(message = "Email is required.")
-    @Email(message = "Invalid email format")
+    @NotBlank(message = "Email is required")
     @Column(unique = true)
     private String email;
 
-    @NotBlank(message = "Password is required.")
+    @NotBlank(message = "Password  is required")
     private String password;
 
-    @NotBlank(message = "Phone number is required.")
+    @NotBlank(message = "Phone Number is required")
     @Column(name = "phone_number")
     private String phoneNumber;
-
 
     @Enumerated(EnumType.STRING)
     private UserRole role;

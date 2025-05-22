@@ -1,5 +1,6 @@
 package org.sekiro.InventoryManagementSystem.dto;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,8 @@ public class TransactionRequest {
 
     @Positive(message = "Quantity id is required")
     private Integer quantity;
-    
+
     private Long supplierId;
-    private String description;
+
+    private String  description;
 }

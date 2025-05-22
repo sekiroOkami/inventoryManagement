@@ -12,35 +12,41 @@ import java.util.List;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Response {
-    // generic
+    //generic
     private int status;
     private String message;
-
-    // for login
+    //for login
     private String token;
     private UserRole role;
-    private String expireTime;
+    private String expirationTime;
 
-    // for pagination
+    //for pagination
     private Integer totalPages;
-    private Long totalElement;
+    private Long totalElements;
 
-    // data output optional
+    //data output optional
     private UserDTO user;
     private List<UserDTO> users;
 
-    private TransactionDTO transactionDTO;
-    private List<TransactionDTO> transactionDTOS;
+    private SupplierDTO supplier;
+    private List<SupplierDTO> suppliers;
 
-    private SupplierDTO supplierDTO;
-    private List<SupplierDTO> supplierDTOS;
+    private CategoryDTO category;
+    private List<CategoryDTO> categories;
 
-    private CategoryDTO categoryDTO;
-    private List<CategoryDTO> categoryDTOS;
+    private ProductDTO product;
+    private List<ProductDTO> products;
 
-    private ProductDTO productDTO;
-    private List<ProductDTO> productDTOS;
+    private TransactionDTO transaction;
+    private List<TransactionDTO> transactions;
 
     private final LocalDateTime timestamp = LocalDateTime.now();
+
+
+
+
+
+
+
 
 }
