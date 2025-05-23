@@ -26,7 +26,7 @@ public class AuthUser implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return user.getRole() != null
-                ? List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
+                ? List.of(new SimpleGrantedAuthority(user.getRole().name()))
                 : Collections.emptyList(); // handle null roles to avoid NullPointerException
     }
 
