@@ -12,29 +12,27 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class SecurityFilter {
-    private static final Logger logger = LoggerFactory.getLogger(SecurityFilter.class);
+public class SecurityConfig {
 
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     private final AuthFilter authFilter;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
-    private final CustomAccessDenialHandler customAccessDeniedHandler;
+    private final CustomAccessDenialHandler accessDenialHandler;
 
-    public SecurityFilter(AuthFilter authFilter,
-                          CustomAuthenticationEntryPoint customAuthenticationEntryPoint,
-                          CustomAccessDenialHandler customAccessDeniedHandler) {
+    public SecurityConfig(AuthFilter authFilter, CustomAuthenticationEntryPoint customAuthenticationEntryPoint, CustomAccessDenialHandler accessDenialHandler) {
         this.authFilter = authFilter;
         this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
-        this.customAccessDeniedHandler = customAccessDeniedHandler;
+        this.accessDenialHandler = accessDenialHandler;
     }
 
     @Bean
@@ -48,18 +46,19 @@ public class SecurityFilter {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
-        httpSecurity.csrf(AbstractHttpConfigurer::disable)
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
-                .exceptionHandling(exception -> exception.accessDeniedHandler(customAccessDeniedHandler)
+                .exceptionHandling(exception -> exception.accessDeniedHandler(accessDenialHandler)
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
                 )
-                .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .anyRequest().authenticated()
+                .authorizeHttpRequests(request ->
+                        request.requestMatchers("/api/auth/**").permitAll()
+                                .anyRequest().authenticated()
                 )
-                .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
-        return httpSecurity.build();
+
+        return http.build();
     }
 }

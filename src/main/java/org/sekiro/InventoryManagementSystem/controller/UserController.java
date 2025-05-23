@@ -20,30 +20,41 @@ public class UserController {
 
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Response> getAllUsers(){
+    public ResponseEntity<Response> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Response> updateUser(@PathVariable Long id,  @RequestBody UserDTO userDTO){
+    @PostMapping("/update/{id}")
+    public ResponseEntity<Response> updateUser(
+            @PathVariable Long id,
+            @RequestBody UserDTO userDTO
+    ) {
         return ResponseEntity.ok(userService.updateUser(id, userDTO));
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Response> deleteUser(@PathVariable Long id){
+    public ResponseEntity<Response> deleteUser(
+            @PathVariable Long id
+    ) {
         return ResponseEntity.ok(userService.deleteUser(id));
     }
 
+    @GetMapping("/transaction/{id}")
+    public ResponseEntity<Response> getTransaction(
+            @PathVariable Long userId
+    ) {
+        return ResponseEntity.ok(userService.deleteUser(userId));
+    }
 
-    @GetMapping("/transactions/{userId}")
-    public ResponseEntity<Response> getUserAndTransactions(@PathVariable Long userId){
+    @GetMapping("/transaction/{userId}")
+    public ResponseEntity<Response> getUserAndTransactions(
+            @PathVariable Long userId
+    ) {
         return ResponseEntity.ok(userService.getUserTransactions(userId));
     }
 
-
     @GetMapping("/current")
-    public ResponseEntity<User> getCurrentUser(){
+    public ResponseEntity<User> getCurrentUser() {
         return ResponseEntity.ok(userService.getCurrentLoggedInUser());
     }
 }

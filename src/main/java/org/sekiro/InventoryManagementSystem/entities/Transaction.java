@@ -1,12 +1,15 @@
 package org.sekiro.InventoryManagementSystem.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 import org.sekiro.InventoryManagementSystem.enums.TransactionStatus;
 import org.sekiro.InventoryManagementSystem.enums.TransactionType;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,6 +19,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
+@Setter
 @Table(name = "transactions")
 public class Transaction {
 
@@ -23,20 +28,28 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Min(value = 0, message = "Total products cannot be negative.")
     private Integer totalProducts;
 
+    @NotNull(message = "Total price is required.")
+    @DecimalMin(value = "0.0", inclusive = true, message = "Total price cannot be negative.")
     private BigDecimal totalPrice;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     private TransactionType transactionType;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     private TransactionStatus status;
 
+    @Size(max = 255, message = "Description cannot exceed 255 characters.")
     private String description;
 
-    private LocalDateTime updatedAt;
+//    @LastModifiedDate
+    private LocalDateTime updatedAt ;
 
+//    @CreatedDate
+//    @Column(updatable = false)
+//    private LocalDateTime createdAt ;
     private final LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
