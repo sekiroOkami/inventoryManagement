@@ -65,10 +65,13 @@ class AuthControllerTest {
         when(userService.registerUser(any(RegisterRequest.class))).thenReturn(response);
 
         // Act & Assert
+        String content = objectMapper.writeValueAsString(registerRequest);
+        System.out.println("content = " + content);
         mockMvc.perform(post("/api/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(registerRequest)))
-                .andExpect(status().isOk());
+                .content(content))
+                .andExpect(jsonPath("$.status").value(200))
+                .andExpect(jsonPath("$.message").value("success"));
 
     }
 }
