@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ModelMapperConfig {
-
     @Bean
     // ModelMapper is a third-party library (from the org.modelmapper package) that automates object-to-object mapping.
     public ModelMapper modelMapper() {

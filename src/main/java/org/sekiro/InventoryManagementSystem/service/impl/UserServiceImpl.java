@@ -178,7 +178,7 @@ public class UserServiceImpl implements UserService {
             // transaction get user
             // avoid stack overflow
             // get only the data you need, the thing you don't need don't get then don't return them
-            transactionDTO.setUsers(null);
+            transactionDTO.setUser(null);
             transactionDTO.setSupplier(null);
             // but the product information is needed
         });

@@ -18,31 +18,30 @@ import java.time.LocalDateTime;
 @Setter
 @Table(name = "products")
 public class Product {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Name is required.")
+    @NotBlank(message = "Name is required")
     private String name;
 
-    @NotBlank(message = "Sku is required.")
+    @NotBlank(message = "Sku is required")
     @Column(unique = true)
     private String sku;
 
-    @Positive(message = "Product price must be a positive value")
+    @Positive(message = "Product price msut be a positive value")
     private BigDecimal price;
 
-    @Min(value = 0, message = "Stock quantity cannot less than zero")
+    @Min(value = 0, message = "Stock quantity cannot be lesser than zero")
     private Integer stockQuantity;
 
     private String description;
 
     private String imageUrl;
 
-    private LocalDateTime expireDate;
+    private LocalDateTime expiryDate;
 
-    private LocalDateTime updatedAt ;
+    private  LocalDateTime updatedAt;
 
     private final LocalDateTime createdAt = LocalDateTime.now();
 
@@ -60,11 +59,9 @@ public class Product {
                 ", stockQuantity=" + stockQuantity +
                 ", description='" + description + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
-                ", expireDate=" + expireDate +
+                ", expiryDate=" + expiryDate +
                 ", updatedAt=" + updatedAt +
                 ", createdAt=" + createdAt +
                 '}';
     }
 }
-
-
