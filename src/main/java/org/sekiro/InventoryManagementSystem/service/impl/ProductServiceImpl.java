@@ -78,7 +78,7 @@ public class ProductServiceImpl implements ProductService {
         if (imageFile != null && !imageFile.isEmpty()) {
             String imagePath = null;
             try {
-                imagePath = saveImageToFrontendPublicFolder(imageFile);
+                imagePath = saveImage(imageFile);
             } catch (IOException e) {
                 throw new RuntimeException("Error during saveImage to Folder");
             }
@@ -175,7 +175,7 @@ public class ProductServiceImpl implements ProductService {
             imageFile.transferTo(desctinationFile); //we are transfering(writing to this folder)
 
         }catch (Exception e){
-            throw new IllegalArgumentException("Error occurend while saving image" + e.getMessage());
+            throw new IllegalArgumentException("Error occurred while saving image" + e.getMessage());
         }
 
         return "products/"+uniqueFileName;

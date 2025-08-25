@@ -33,6 +33,7 @@ public class ProductController {
             @RequestParam("categoryId") Long categoryId,
             @RequestParam(value = "description", required = false) String description
     ) throws IOException {
+
         ProductDTO productDTO = new ProductDTO();
         productDTO.setName(name);
         productDTO.setSku(sku);
@@ -53,10 +54,12 @@ public class ProductController {
             @RequestParam(value = "sku", required = false) String sku,
             @RequestParam(value = "price", required = false) BigDecimal price,
             @RequestParam(value = "stockQuantity", required = false) Integer stockQuantity,
-            @RequestParam(value = "categoryId", required = false) Long categoryId,
+            @RequestParam(value = "productId",required = true) Long  productId,
+            @RequestParam(value = "categoryId", required = true) Long categoryId,
             @RequestParam(value = "description", required = false) String description
     ) throws IOException {
         ProductDTO productDTO = new ProductDTO();
+        productDTO.setProductId(productId);
         productDTO.setName(name);
         productDTO.setSku(sku);
         productDTO.setPrice(price);
@@ -64,6 +67,7 @@ public class ProductController {
         productDTO.setCategoryId(categoryId);
         productDTO.setDescription(description);
 
+        System.out.println(productDTO);
         return ResponseEntity.ok(productService.updateProduct(productDTO, imageFile));
     }
 
